@@ -16,10 +16,10 @@ jMonkeyEngine
 h2. Todo:
 
 * Fix background sky shader issues (mostly visible if moving)   
-* Add stars   
-* Add moon(s)   
-* Test/adapt scaling   
-* Optional lens flare maybe   
-* ...   
-
-
+* Refactoring
+* Add stars
+* Add moon(s)
+* Test/adapt scaling
+* Optional lens flare maybe
+* Make it a pluggable library for JMP (install via update center)
+* ...
