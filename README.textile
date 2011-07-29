@@ -1,13 +1,20 @@
 h1. Dynamic skydome for jme3
+
 (Work in progress)
 
+h2. References:
+
 Implementation based on the work of Robert Kooima:
-"http://csc.lsu.edu/~kooima/misc/cs594/final/index.html":csc.lsu.edu/~kooima/misc/cs594/final/index.html
+"http://csc.lsu.edu/~kooima/misc/cs594/final/index.html":http://csc.lsu.edu/~kooima/misc/cs594/final/index.html
 
 Sun system adapted from JIVE:
-"http://sourceforge.net/projects/jives/":sourceforge.net/projects/jives/
+"http://sourceforge.net/projects/jives/":http://sourceforge.net/projects/jives/
 
-h2. Todo:   
+jMonkeyEngine
+"http://jmonkeyengine.org":http://jmonkeyengine.org
+
+h2. Todo:
+
 * Fix background sky shader issues (mostly visible if moving)   
 * Add stars   
 * Add moon(s)   
@@ -16,5 +23,3 @@ h2. Todo:
 * ...   
 
 
-jMonkeyEngine
-"http://jmonkeyengine.org":jmonkeyengine.org
