@@ -23,7 +23,7 @@
  *  along with this.  If not, see <http://www.gnu.org/licenses/>. 
  */
 
-package com.idflood.sky;
+package com.idflood.sky.utils;
 
 import java.util.Calendar;
 import java.util.Date;

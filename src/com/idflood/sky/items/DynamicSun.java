@@ -1,19 +1,14 @@
-package com.idflood.sky;
+package com.idflood.sky.items;
 
+import com.idflood.sky.utils.SkyBillboardItem;
+import com.idflood.sky.utils.SunSystem;
 import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
-import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.control.BillboardControl;
-import com.jme3.scene.shape.Quad;
 import com.jme3.scene.shape.Sphere;
 import java.util.Date;
 
@@ -23,23 +18,14 @@ public class DynamicSun extends Node {
     private ViewPort viewPort = null;
     private AssetManager assetManager = null;
     
-    private Vector3f screenLightPos = new Vector3f();
-    
-    public Vector3f viewLightPos = new Vector3f();
+    private SunSystem sunSystem = new SunSystem(new Date(), 0, 0, 0);
+    private SkyBillboardItem sun;
     
     private DirectionalLight sunLight = null;
-    private Geometry skyGeom = null;
-    private Material skyMaterial = null;
-    
-    private SunSystem sunSystem = new SunSystem(new Date(), 0, 0, 0);
-    
     private Vector3f lightDir = sunSystem.getPosition();
     private Vector3f lightPosition = new Vector3f();
     
-    private SkyBillboardItem sun;
-    
     private float scaling = 900;
-       
     
     public DynamicSun(AssetManager assetManager, ViewPort viewPort, Node rootNode) {
         this.assetManager = assetManager;
@@ -47,10 +33,7 @@ public class DynamicSun extends Node {
         
         sunLight = getSunLight();
         rootNode.addLight(sunLight);
-        
-        skyGeom = getSkyGeometry();
-        rootNode.attachChild(skyGeom);
-        
+                
         sunSystem.setSiteLatitude(46.32f);
         sunSystem.setSiteLongitude(6.38f);
         updateLightPosition();
@@ -62,15 +45,10 @@ public class DynamicSun extends Node {
         setCullHint(CullHint.Never);
     }
     
-    protected Geometry getSkyGeometry(){
-        Geometry geom = new Geometry("Sky", sphereMesh);
-        geom.setQueueBucket(Bucket.Sky);
-        geom.setCullHint(Spatial.CullHint.Never);
-        
-        skyMaterial = getDynamicSkyMaterial();
-        geom.setMaterial(skyMaterial);
-        return geom;
+    public SunSystem getSunSystem(){
+        return sunSystem;
     }
+    
     
     protected DirectionalLight getSunLight(){
         DirectionalLight dl = new DirectionalLight();
@@ -82,27 +60,15 @@ public class DynamicSun extends Node {
     protected void updateLightPosition(){
         lightDir = sunSystem.getDirection();
         lightPosition = sunSystem.getPosition();
-
-        viewPort.getCamera().getViewMatrix().mult(lightPosition, viewLightPos);
-        skyMaterial.setVector3("lightPosition", lightPosition);
     }
     
-    protected Material getDynamicSkyMaterial(){
-        Material skyMat = new Material(assetManager, "MatDefs/dynamic_sky.j3md");
-        skyMat.setTexture("glow_texture", assetManager.loadTexture("Textures/glow.png"));
-        skyMat.setTexture("color_texture", assetManager.loadTexture("Textures/sky.png"));
-        skyMat.setVector3("lightPosition", screenLightPos);
-        
-        return skyMat;
-    }
     
     public Vector3f getSunDirection(){
         return sunSystem.getPosition();
     }
 
-    void updateTime() {
-        // make everything follow camery
-        skyGeom.setLocalTranslation(viewPort.getCamera().getLocation());
+    public void updateTime() {
+        // make everything follow the camera
         setLocalTranslation(viewPort.getCamera().getLocation());
         
         sunSystem.updateSunPosition(0, 0, 30); // increment by 30 seconds

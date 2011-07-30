@@ -1,4 +1,4 @@
-package com.idflood.sky;
+package com.idflood.sky.utils;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
