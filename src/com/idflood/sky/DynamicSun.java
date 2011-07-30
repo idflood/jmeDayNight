@@ -55,7 +55,7 @@ public class DynamicSun extends Node {
         sunSystem.setSiteLongitude(6.38f);
         updateLightPosition();
         
-        sunDisc = new Quad(130, 130);
+        sunDisc = new Quad(170, 170);
         sunDiscGeom = new Geometry("sunDisc", sunDisc);
         Material sunDiscMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         sunDiscMat.setTexture("ColorMap", assetManager.loadTexture("Textures/sun.png"));
@@ -86,19 +86,13 @@ public class DynamicSun extends Node {
         dl.setColor(ColorRGBA.White);
         return dl;
     }
-    
-    protected Vector3f getLightPosition(){
-        return lightDir.multLocal(scaling * -1);
-    }
-    
+        
     protected void updateLightPosition(){
-        lightPosition = getLightPosition();
-        getClipCoordinates(lightPosition, screenLightPos, viewPort.getCamera());
-        //screenLightPos.x = screenLightPos.x / viewPort.getCamera().getWidth();
-        //screenLightPos.y = screenLightPos.y / viewPort.getCamera().getHeight();
+        lightDir = sunSystem.getDirection();
+        lightPosition = sunSystem.getPosition();
 
         viewPort.getCamera().getViewMatrix().mult(lightPosition, viewLightPos);
-        skyMaterial.setVector3("lightPosition", screenLightPos);
+        skyMaterial.setVector3("lightPosition", lightPosition);
     }
     
     protected Material getDynamicSkyMaterial(){
@@ -110,28 +104,18 @@ public class DynamicSun extends Node {
         return skyMat;
     }
     
-    private Vector3f getClipCoordinates(Vector3f worldPosition, Vector3f store, Camera cam) {
-        float w = cam.getViewProjectionMatrix().multProj(worldPosition, store);
-        store.divideLocal(w);
-
-        store.x = ((store.x + 1f) * (cam.getViewPortRight() - cam.getViewPortLeft()) / 2f + cam.getViewPortLeft());
-        store.y = ((store.y + 1f) * (cam.getViewPortTop() - cam.getViewPortBottom()) / 2f + cam.getViewPortBottom());
-        store.z = (store.z + 1f) / 2f;
-
-        return store;
-    }
-    
     public Vector3f getSunDirection(){
         return sunSystem.getPosition();
     }
 
     void updateTime() {
-        skyGeom.setLocalTranslation(viewPort.getCamera().getLocation());
+        // todo: make everything follow camery, not just sky...
+        //skyGeom.setLocalTranslation(viewPort.getCamera().getLocation());
         
         sunSystem.updateSunPosition(0, 0, 30); // increment by 30 seconds
-        lightDir = sunSystem.getPosition();
-        sunLight.setDirection(lightDir.normalize());
         updateLightPosition();
+        
+        sunLight.setDirection(lightDir);
         sunDiscGeom.setLocalTranslation(lightPosition.mult(0.95f));
     }
 }

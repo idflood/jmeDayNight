@@ -36,7 +36,7 @@ import com.jme3.math.Vector3f;
 
 public class SunSystem {
     private static final Logger logger = Logger.getLogger(SunSystem.class.getName());
-    private static float distScaleFactor = -1;
+    private static float distScaleFactor = 900;
     double lambda;
     double beta;
     double r;
@@ -196,7 +196,24 @@ public class SunSystem {
     public Vector3f getPosition() {
             return sunPosition;
     }
-
+    
+    /**
+     * 
+     * @return sun direction as a normalized vector
+     */
+    public Vector3f getDirection() {
+            return sunPosition.normalize().mult(-1);
+    }
+    
+    
+    /**
+     * 
+     * @return scale factor (distance of the sun)
+     */
+    public float getScaleFactor() {
+            return distScaleFactor;
+    }
+    
     /**
      * 
      * @return earth site latitude
