@@ -15,7 +15,6 @@ jMonkeyEngine
 
 h2. Todo:
 
-* Fix background sky shader issues (mostly visible if moving)   
 * Refactoring
 * Add stars
 * Add moon(s)
