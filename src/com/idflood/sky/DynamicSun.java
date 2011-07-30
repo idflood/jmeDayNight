@@ -36,10 +36,10 @@ public class DynamicSun extends Node {
     private Vector3f lightDir = sunSystem.getPosition();
     private Vector3f lightPosition = new Vector3f();
     
-    private Quad sunDisc;
-    private Geometry sunDiscGeom;
+    private SkyBillboardItem sun;
     
     private float scaling = 900;
+       
     
     public DynamicSun(AssetManager assetManager, ViewPort viewPort, Node rootNode) {
         this.assetManager = assetManager;
@@ -55,19 +55,8 @@ public class DynamicSun extends Node {
         sunSystem.setSiteLongitude(6.38f);
         updateLightPosition();
         
-        sunDisc = new Quad(170, 170);
-        sunDiscGeom = new Geometry("sunDisc", sunDisc);
-        Material sunDiscMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        sunDiscMat.setTexture("ColorMap", assetManager.loadTexture("Textures/sun.png"));
-        sunDiscGeom.setMaterial(sunDiscMat);
-        sunDiscMat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-        sunDiscGeom.setCullHint(CullHint.Never);
-        
-        BillboardControl control = new BillboardControl();
-        sunDiscGeom.addControl(control);
-        sunDiscGeom.setLocalTranslation(0.5f, 5f, 3f);
-        sunDiscGeom.setQueueBucket(Bucket.Transparent);
-        attachChild(sunDiscGeom);
+        sun = new SkyBillboardItem(assetManager, "sun", "Textures/sun.png", 170f);
+        attachChild(sun);
         
         setQueueBucket(Bucket.Sky);
         setCullHint(CullHint.Never);
@@ -120,6 +109,6 @@ public class DynamicSun extends Node {
         updateLightPosition();
         
         sunLight.setDirection(lightDir);
-        sunDiscGeom.setLocalTranslation(lightPosition.mult(0.95f));
+        sun.setLocalTranslation(lightPosition.mult(0.95f));
     }
 }
