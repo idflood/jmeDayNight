@@ -1,6 +1,7 @@
 package com.idflood.sky;
 
 import com.idflood.sky.items.DynamicSkyBackground;
+import com.idflood.sky.items.DynamicStars;
 import com.idflood.sky.items.DynamicSun;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
@@ -11,16 +12,22 @@ public class DynamicSky extends Node {
     private ViewPort viewPort = null;
     private AssetManager assetManager = null;
     
-    private DynamicSun dynamicSun= null;
+    private DynamicSun dynamicSun = null;
+    private DynamicStars dynamicStars = null;
     private DynamicSkyBackground dynamicBackground = null;
+    
+    private float scaling = 900;
     
     public DynamicSky(AssetManager assetManager, ViewPort viewPort, Node rootNode) {
         super("Sky");
         this.assetManager = assetManager;
         this.viewPort = viewPort;
         
-        dynamicSun = new DynamicSun(assetManager, viewPort, rootNode);
+        dynamicSun = new DynamicSun(assetManager, viewPort, rootNode, scaling);
         rootNode.attachChild(dynamicSun);
+        
+        dynamicStars = new DynamicStars(assetManager, viewPort, scaling);
+        rootNode.attachChild(dynamicStars);
         
         dynamicBackground = new DynamicSkyBackground(assetManager, viewPort, rootNode);
     }

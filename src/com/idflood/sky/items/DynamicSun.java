@@ -27,9 +27,10 @@ public class DynamicSun extends Node {
     
     private float scaling = 900;
     
-    public DynamicSun(AssetManager assetManager, ViewPort viewPort, Node rootNode) {
+    public DynamicSun(AssetManager assetManager, ViewPort viewPort, Node rootNode, Float scaling) {
         this.assetManager = assetManager;
         this.viewPort = viewPort;
+        this.scaling = scaling;
         
         sunLight = getSunLight();
         rootNode.addLight(sunLight);
@@ -49,10 +50,9 @@ public class DynamicSun extends Node {
         return sunSystem;
     }
     
-    
     protected DirectionalLight getSunLight(){
         DirectionalLight dl = new DirectionalLight();
-        dl.setDirection(lightDir.normalize());
+        dl.setDirection(lightDir);
         dl.setColor(ColorRGBA.White);
         return dl;
     }
@@ -61,7 +61,6 @@ public class DynamicSun extends Node {
         lightDir = sunSystem.getDirection();
         lightPosition = sunSystem.getPosition();
     }
-    
     
     public Vector3f getSunDirection(){
         return sunSystem.getPosition();
