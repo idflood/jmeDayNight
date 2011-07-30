@@ -67,7 +67,10 @@ public class DynamicSun extends Node {
         sunDiscGeom.addControl(control);
         sunDiscGeom.setLocalTranslation(0.5f, 5f, 3f);
         sunDiscGeom.setQueueBucket(Bucket.Transparent);
-        rootNode.attachChild(sunDiscGeom);
+        attachChild(sunDiscGeom);
+        
+        setQueueBucket(Bucket.Sky);
+        setCullHint(CullHint.Never);
     }
     
     protected Geometry getSkyGeometry(){
@@ -109,8 +112,9 @@ public class DynamicSun extends Node {
     }
 
     void updateTime() {
-        // todo: make everything follow camery, not just sky...
-        //skyGeom.setLocalTranslation(viewPort.getCamera().getLocation());
+        // make everything follow camery
+        skyGeom.setLocalTranslation(viewPort.getCamera().getLocation());
+        setLocalTranslation(viewPort.getCamera().getLocation());
         
         sunSystem.updateSunPosition(0, 0, 30); // increment by 30 seconds
         updateLightPosition();

@@ -41,8 +41,6 @@ public class DynamicSky extends Node {
         
         dynamicSun = new DynamicSun(assetManager, viewPort, rootNode);
         rootNode.attachChild(dynamicSun);
-        
-        setCullHint(Spatial.CullHint.Never);
     }
     
     public Vector3f getSunDirection(){
