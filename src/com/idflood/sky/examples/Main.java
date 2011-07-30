@@ -16,10 +16,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Quad;
 import com.jme3.shadow.BasicShadowRenderer;
-/**
- * test
- * @author normenhansen
- */
+
 public class Main extends SimpleApplication {
     DynamicSky sky = null;
     BasicShadowRenderer bsr = null;

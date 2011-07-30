@@ -18,7 +18,7 @@ import com.jme3.scene.shape.Sphere;
 import java.util.Date;
 
 public class DynamicSun extends Node {
-    private static final Sphere sphereMesh = new Sphere(40, 40, 500, false, true);
+    private static final Sphere sphereMesh = new Sphere(40, 40, 900, false, true);
     
     private ViewPort viewPort = null;
     private AssetManager assetManager = null;
@@ -39,7 +39,7 @@ public class DynamicSun extends Node {
     private Quad sunDisc;
     private Geometry sunDiscGeom;
     
-    private float scaling = 200;
+    private float scaling = 900;
     
     public DynamicSun(AssetManager assetManager, ViewPort viewPort, Node rootNode) {
         this.assetManager = assetManager;
@@ -55,7 +55,7 @@ public class DynamicSun extends Node {
         sunSystem.setSiteLongitude(6.38f);
         updateLightPosition();
         
-        sunDisc = new Quad(30, 30);
+        sunDisc = new Quad(130, 130);
         sunDiscGeom = new Geometry("sunDisc", sunDisc);
         Material sunDiscMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         sunDiscMat.setTexture("ColorMap", assetManager.loadTexture("Textures/sun.png"));

@@ -34,10 +34,6 @@ import java.util.logging.Logger;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
 
-/**
- *
- * @author davidmignot
- */
 public class SunSystem {
     private static final Logger logger = Logger.getLogger(SunSystem.class.getName());
     private static float distScaleFactor = -1;
