@@ -12,29 +12,29 @@ import com.jme3.scene.shape.Quad;
 public class SkyBillboardItem extends Geometry{
     private BillboardControl billBoadControl = new BillboardControl();
     private Quad quad;
-    Material sunDiscMat;
+    Material mat;
     
     public SkyBillboardItem(AssetManager assetManager, String name, String texture, Float scale){
         super(name);
         
         quad = new Quad(scale, scale);
         
-        sunDiscMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        sunDiscMat.setTexture("ColorMap", assetManager.loadTexture(texture));
-        sunDiscMat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-        sunDiscMat.getAdditionalRenderState().setDepthWrite(false);
+        mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setTexture("ColorMap", assetManager.loadTexture(texture));
+        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        mat.getAdditionalRenderState().setDepthWrite(false);
         
         setQueueBucket(Bucket.Transparent);
         setCullHint(CullHint.Never);
         
         setMesh(quad);
-        setMaterial(sunDiscMat);
+        setMaterial(mat);
         
         addControl(billBoadControl);
     }
     
     public Material getMaterial(){
-        return sunDiscMat;
+        return mat;
     }
     
     public void setRotation(Float rotation){
