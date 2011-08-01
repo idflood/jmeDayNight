@@ -22,6 +22,7 @@ public class SkyBillboardItem extends Geometry{
         sunDiscMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         sunDiscMat.setTexture("ColorMap", assetManager.loadTexture(texture));
         sunDiscMat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        sunDiscMat.getAdditionalRenderState().setDepthWrite(false);
         
         setQueueBucket(Bucket.Transparent);
         setCullHint(CullHint.Never);
