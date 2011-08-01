@@ -4,6 +4,8 @@ import com.idflood.sky.utils.SkyBillboardItem;
 import com.idflood.sky.utils.SunSystem;
 import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.ViewPort;
@@ -39,7 +41,13 @@ public class DynamicSun extends Node {
         sunSystem.setSiteLongitude(6.38f);
         updateLightPosition();
         
-        sun = new SkyBillboardItem(assetManager, "sun", "Textures/sun.png", 170f);
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/sun.png"));
+        mat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        mat.getAdditionalRenderState().setDepthWrite(false);
+        
+        sun = new SkyBillboardItem("sun", 170f);
+        sun.setMaterial(mat);
         attachChild(sun);
         
         setQueueBucket(Bucket.Sky);
@@ -70,7 +78,7 @@ public class DynamicSun extends Node {
         // make everything follow the camera
         setLocalTranslation(viewPort.getCamera().getLocation());
         
-        sunSystem.updateSunPosition(0, 0, 30); // increment by 30 seconds
+        sunSystem.updateSunPosition(0, 0, 10); // increment by 30 seconds
         updateLightPosition();
         
         sunLight.setDirection(lightDir);

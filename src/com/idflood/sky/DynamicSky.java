@@ -4,6 +4,7 @@ import com.idflood.sky.items.DynamicSkyBackground;
 import com.idflood.sky.items.DynamicStars;
 import com.idflood.sky.items.DynamicSun;
 import com.jme3.asset.AssetManager;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
@@ -39,6 +40,7 @@ public class DynamicSky extends Node {
     public void updateTime(){
         dynamicSun.updateTime();
         dynamicBackground.updateLightPosition(dynamicSun.getSunSystem().getPosition());
+        dynamicStars.lookAt(dynamicSun.getSunSystem().getPosition(), Vector3f.ZERO);
     }
     
 }

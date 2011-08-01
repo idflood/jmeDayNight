@@ -2,6 +2,7 @@ package com.idflood.sky.items;
 
 import com.idflood.sky.utils.SkyBillboardItem;
 import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -16,48 +17,57 @@ public class DynamicStars extends Node{
     
     private SkyBillboardItem[] stars;
     
-    private int stars_count = 200;
+    private int stars_count = 500;
     
     public DynamicStars(AssetManager assetManager, ViewPort viewPort, Float scaling){
         this.assetManager = assetManager;
         this.viewPort = viewPort;
         
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setTexture("ColorMap", assetManager.loadTexture("Textures/star.png"));
+        mat.getAdditionalRenderState().setDepthWrite(false);
+        mat.getAdditionalRenderState().setBlendMode(BlendMode.Additive);
+        
         stars = new SkyBillboardItem[stars_count];
         for(int i = 0; i < stars_count; i++){
-            SkyBillboardItem item = new SkyBillboardItem(assetManager, "star_" + i, "Textures/star.png", 420f);
+            SkyBillboardItem item = new SkyBillboardItem("star_" + i, 420f);
             stars[i] = item;
             
-            //item.setRotation((float) Math.random() * 100f);
-            //item.setLocalTranslation(scaling - 50, 0, 0);
+            item.setMaterial(mat);
             item.setLocalTranslation(getPointOnSphere().mult(scaling - 30f));
-            item.getMaterial().getAdditionalRenderState().setBlendMode(BlendMode.Additive);
             item.removeBillboardController();
-            item.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
+            item.lookAt(getRandomVector().mult(10), Vector3f.UNIT_Y);
             attachChild(item);
-            /*Node container = new Node();
-            container.setQueueBucket(Bucket.Sky);
-            container.setCullHint(CullHint.Never);
-            container.attachChild(item);
-            container.rotate(new Quaternion().fromAngles(FastMath.RAD_TO_DEG * 360, FastMath.RAD_TO_DEG * 360, FastMath.RAD_TO_DEG * 360));
-            //container.setLocalRotation(new Quaternion().fromAngles(FastMath.RAD_TO_DEG * 360, FastMath.RAD_TO_DEG * 360, FastMath.RAD_TO_DEG * 360));
-            attachChild(container);*/
         }
         
         setQueueBucket(Bucket.Sky);
         setCullHint(CullHint.Never);
     }
     
-    protected Vector3f getPointOnSphere(){
-        Float dz = 1f;
-        if(Math.random() < 0.5){
-            dz = -1f;
-        }
-        Float theta = (float) Math.random() * 360f;
-        Float phi = (float) Math.random() * FastMath.HALF_PI;
+    protected Vector3f getRandomVector(){
         return new Vector3f(
-                FastMath.cos(FastMath.sqrt(phi)) * FastMath.cos(theta),
-                FastMath.cos(FastMath.sqrt(phi)) * FastMath.sin(theta),
-                FastMath.sin(FastMath.sqrt(phi)) * dz
+                (float) Math.random() - 0.5f,
+                (float) Math.random() - 0.5f,
+                (float) Math.random() - 0.5f
+        );
+    }
+    
+    protected Vector3f getPointOnSphere(){
+        Float x = (float) Math.random() - 0.5f;
+        Float y = (float) Math.random() - 0.5f;
+        Float z = (float) Math.random() - 0.5f;
+        Float k = FastMath.sqrt(x * x + y * y + z * z);
+        while(k < 0.2 || k > 0.3){
+            x = (float) Math.random() - 0.5f;
+            y = (float) Math.random() - 0.5f;
+            z = (float) Math.random() - 0.5f;
+            k = FastMath.sqrt(x * x + y * y + z * z);
+        }
+        
+        return new Vector3f(
+                x / k,
+                y / k,
+                z / k
         );
     }
 }
