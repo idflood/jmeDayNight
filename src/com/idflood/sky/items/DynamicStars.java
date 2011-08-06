@@ -4,6 +4,7 @@ import com.idflood.sky.utils.SkyBillboardItem;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState.BlendMode;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
@@ -18,30 +19,37 @@ public class DynamicStars extends Node{
     private SkyBillboardItem[] stars;
     
     private int stars_count = 500;
+    private Material mat;
     
     public DynamicStars(AssetManager assetManager, ViewPort viewPort, Float scaling){
         this.assetManager = assetManager;
         this.viewPort = viewPort;
         
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setTexture("ColorMap", assetManager.loadTexture("Textures/star.png"));
         mat.getAdditionalRenderState().setDepthWrite(false);
-        mat.getAdditionalRenderState().setBlendMode(BlendMode.Additive);
-        
+        mat.setColor("Color", new ColorRGBA(1f,1f,1f, 0.4f));
+        //mat.getAdditionalRenderState().setBlendMode(BlendMode.Additive);
+        mat.getAdditionalRenderState().setBlendMode(BlendMode.AlphaAdditive);
         stars = new SkyBillboardItem[stars_count];
         for(int i = 0; i < stars_count; i++){
-            SkyBillboardItem item = new SkyBillboardItem("star_" + i, 420f);
+            SkyBillboardItem item = new SkyBillboardItem("star_" + i, 80f + ((float) Math.random() * 140f));
             stars[i] = item;
             
             item.setMaterial(mat);
             item.setLocalTranslation(getPointOnSphere().mult(scaling - 30f));
             item.removeBillboardController();
             item.lookAt(getRandomVector().mult(10), Vector3f.UNIT_Y);
+            item.rotate(new Quaternion().fromAngles((float) Math.random() - 0.5f, (float) Math.random() - 0.5f, (float) Math.random() - 0.5f));
             attachChild(item);
         }
         
         setQueueBucket(Bucket.Sky);
         setCullHint(CullHint.Never);
+    }
+    
+    public void update(Vector3f sunDir){
+        mat.setColor("Color", new ColorRGBA(1f,1f,1f, (sunDir.y + 0.2f) * 0.5f));
     }
     
     protected Vector3f getRandomVector(){

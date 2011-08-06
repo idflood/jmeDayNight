@@ -61,7 +61,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         sky.updateTime();
-        bsr.setDirection(sky.getSunDirection().normalizeLocal().mult(-1));
+        bsr.setDirection(sky.getSunDirection().normalize().mult(-1));
     }
 
     @Override
